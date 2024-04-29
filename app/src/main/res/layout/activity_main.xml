@@ -3,54 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
         <TextView
             android:layout_width="match_parent"
-            android:text="温度测量"
-            android:textStyle="bold"
-            android:textSize="30sp"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
+            android:text="温度测量"
             android:textColor="#1968DD"
-            android:layout_height="match_parent"></TextView>
+            android:textSize="30sp"
+            android:textStyle="bold"></TextView>
 
     </LinearLayout>
 
-        <ListView
-            android:id="@+id/tm_list"
-            android:divider="#B4B3B3"
-            android:dividerHeight="1.0dip"
-            android:scrollbars="none"
-            android:cacheColorHint="@android:color/transparent"
-            android:fadingEdge="none"
-            android:layout_width="fill_parent"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal">
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            android:layout_height="wrap_content" >
-        </ListView>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </TableRow>
+        </TableLayout>
+    </HorizontalScrollView>
+
+    <ListView
+        android:id="@+id/tm_list"
+        android:layout_width="fill_parent"
+        android:layout_height="10sp"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#B4B3B3"
+        android:dividerHeight="1.0dip"
+        android:fadingEdge="none"
+        android:scrollbars="none"></ListView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
         <Button
-            android:layout_width="wrap_content"
-            android:text="添加一行"
             android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:layout_height="wrap_content">
-        </Button>
+            android:text="添加一行"
+            android:textStyle="bold"></Button>
     </LinearLayout>
+
     <Button
-        android:layout_width="match_parent"
         android:id="@+id/btn_cp"
-        android:text="复制"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="复制">
 
     </Button>
 
