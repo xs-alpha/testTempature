@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/text_id"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:singleLine="true"
+        android:text="第一组" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a1"
+            android:text="A"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e1"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a2"
+            android:text="A"
+            android:layout_height="wrap_content">
+
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e2"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a3"
+            android:text="A"
+            android:layout_height="wrap_content">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e3"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a4"
+            android:text="A"
+            android:layout_height="wrap_content">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e4"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a5"
+            android:text="A"
+            android:layout_height="wrap_content">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e5"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a6"
+            android:text="A"
+            android:layout_height="wrap_content">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e6"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_a7"
+            android:text="A"
+            android:layout_height="wrap_content">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/tm_e7"
+            android:layout_height="wrap_content"></EditText>
+    </LinearLayout>
+</LinearLayout>
