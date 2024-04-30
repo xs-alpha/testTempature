@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.health.connect.datatypes.units.Temperature;
 import android.os.Bundle;
@@ -463,5 +464,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mapper.update(tempature);
         }
     }
+
+    //两次滑动返回桌面，不结束当前activity
+    private long exitTime = 0;
+    @Override
+    public void onBackPressed() {
+        ToastUtils.showLong("再按1次返回桌面");
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            exitTime = System.currentTimeMillis();
+        }else {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+        }
+    }
+
 
 }
