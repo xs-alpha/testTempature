@@ -136,7 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_cp) {
-            Toast.makeText(MainActivity.this, "复制成功", Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this, "复制成功", Toast.LENGTH_LONG).show();
+            ToastUtils.showLong("复制成功");
             List<List<String>> tableData = getTableData();
             System.out.println(tableData);
             String res = formatTable(tableData);
@@ -194,7 +195,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Tempature tempature = new Tempature();
         tempature.setId(1);
         mapper.delete(tempature);
-        Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_LONG).show();
+//        Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_LONG).show();
+        ToastUtils.showLong("删除成功");
     }
 
     private void loadData() {
@@ -228,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         // 删除按钮所在的行
                                         TableRow parentRow = (TableRow) v.getParent();
                                         tableLayout.removeView(parentRow);
+                                        ToastUtils.showLong("删除行成功");
                                         // 刷新行号
                                         refreshNumberRows();
                                     }
@@ -375,7 +378,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         executorService.submit(saveTask);
-        Toast.makeText(MainActivity.this,"保存成功",Toast.LENGTH_LONG).show();
+//        Toast.makeText(MainActivity.this,"保存成功",Toast.LENGTH_LONG).show();
+        ToastUtils.showLong("保存成功");
     }
 
 
