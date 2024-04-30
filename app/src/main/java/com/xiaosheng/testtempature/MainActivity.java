@@ -205,25 +205,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void refreshNumberRows() {
         // 遍历 TableLayout 中的每一行
         boolean flag = false;
-        for (int i = 1; i < tableLayout.getChildCount(); i++) {
+        List<List<String>> tbs = getTableData();
+        for (int i = 1; i <= tbs.size()+1; i++) {
             View child = tableLayout.getChildAt(i);
             if (child instanceof TableRow) {
                 TableRow row = (TableRow) child;
                 TextView prefixTextView = (TextView) row.getChildAt(0);
+                if (null == prefixTextView){
+                    flag = true;
+                }
                 if (prefixTextView != null) {
                     // 更新组号
-//                     reRow = i == 1 ? i : (i - 1);
-                     if (i<=1){
-                         flag = true;
-                         prefixTextView.setText("第-" + (i) + "组 ");
-                     }else {
-                         prefixTextView.setText("第:" + (i-1) + "组 ");
-                     }
-//                    int reRow = i -1;
+                    if (flag){
+                        prefixTextView.setText("第" + (i-1) + "组 ");
+                    }else{
+                        LogUtils.log("xxxxxx:" + i + "  table:" + tbs.size() + "preText:" + prefixTextView.getText());
+                        prefixTextView.setText("第" + (i) + "组 ");
+                    }
                 }
+
             }
         }
-        rows = flag ? (tableLayout.getChildCount() - 1): (tableLayout.getChildCount() - 2);
+        rows = tbs.size();
+        LogUtils.log("xxxxx-x:" + rows + "  table:" + tableLayout.getChildCount() + " tbs:" + tbs.size());
     }
 
 
@@ -258,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
             View view = tableLayout.getChildAt(i);
             if (view instanceof TableRow) {
-                ArrayList<String> rowData = new ArrayList<>();
+                List<String> rowData = new ArrayList<>();
                 TableRow tableRow = (TableRow) view;
                 for (int j = 0; j < tableRow.getChildCount(); j++) {
                     View childView = tableRow.getChildAt(j);
