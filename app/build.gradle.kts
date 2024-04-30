@@ -10,8 +10,8 @@ android {
         applicationId = "com.xiaosheng.testtempature"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.5"
+        versionCode = 19
+        versionName = "1.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

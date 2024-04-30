@@ -10,7 +10,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.health.connect.datatypes.units.Temperature;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +43,7 @@ import com.xiaosheng.testtempature.entity.TestTemConfig;
 import com.xiaosheng.testtempature.entity.TestTemEntity;
 import com.xiaosheng.testtempature.utils.LogUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -423,7 +427,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editText.setText(temperatureList.get(i-1));
             }
             editText.setBackgroundResource(R.drawable.cell_backgroud);
+            // 设置光标颜色
+            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        Log.e("xiaosheng", "EditText2获得焦点");
+                        editText.setBackgroundResource(R.drawable.cursor_color);
 
+                    } else {
+                        Log.e("xiaosheng", "EditText2失去焦点");
+                        editText.setBackgroundResource(R.drawable.cursor_color_unselected);
+                    }
+                }
+            });
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // 当EditText文本改变时，改变行的背景颜色
+                    changeRowColor(tableLayout.indexOfChild(tableRow));
+                }
+            });
             // 设置 TextView 的外边距
             pc.setLayoutParams(cellParams);
             // 添加单元格到 TableRow
@@ -432,10 +462,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         ///添加删除按钮
         addDeleteBtn(tableRow);
+        // 添加行点击事件
+        // 设置行点击事件
+        tableRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 获取当前选中行的索引
+                int rowIndex = tableLayout.indexOfChild(tableRow);
+                // 改变选中行的背景颜色
+                changeRowColor(rowIndex);
+            }
+        });
         // 将 TableRow 添加到 TableLayout
         tableLayout.addView(tableRow);
     }
-
+    private void changeRowColor(int rowIndex) {
+        // 遍历表格中的每一行，根据索引改变背景颜色
+        for (int i = 0; i < tableLayout.getChildCount(); i++) {
+            TableRow row = (TableRow) tableLayout.getChildAt(i);
+            if (i == rowIndex) {
+                // 选中的行改变背景颜色
+                row.setBackgroundColor(Color.RED);
+            } else {
+                // 其他行恢复原始背景颜色
+                row.setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
+    }
 
     private void addDataToTable(List<List<String>> temperatureList) {
         // 清空表格
