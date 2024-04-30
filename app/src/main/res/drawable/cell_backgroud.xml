@@ -1,0 +1,9 @@
+<!-- cell_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+<!--    <solid android:color="@android:color/white" /> &lt;!&ndash; 设置单元格背景颜色 &ndash;&gt;-->
+    <stroke
+        android:width="1dp"
+        android:color="@android:color/white" />
+<!--        android:color="@android:color/black" />-->
+</shape>

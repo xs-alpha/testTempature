@@ -23,14 +23,20 @@
 
     </LinearLayout>
 
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal">
+
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:layout_marginRight="50dp"
+            android:divider="@drawable/line_h"
+            android:showDividers="beginning|middle|end">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -55,24 +61,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="160sp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="添加一行"
+                android:textStyle="bold"></Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="保存"
+                android:textStyle="bold"></Button>
+
+            <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="清空"
+                android:textStyle="bold"></Button>
+
+            <Button
+                android:id="@+id/btn_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="加载"
+                android:textStyle="bold"></Button>
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_cp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="添加一行"
-            android:textStyle="bold"></Button>
+            android:text="复制">
+
+        </Button>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_cp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="复制">
-
-    </Button>
-
 
 </LinearLayout>
