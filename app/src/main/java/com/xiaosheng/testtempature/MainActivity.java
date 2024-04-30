@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<List<String>> tableData;
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
+    private TextView editShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnDel = findViewById(R.id.btn_delete);
         btnDel.setBackgroundColor(Color.RED);
         btnDel.setTextColor(Color.parseColor("#3ec1d3"));
+        editShow = findViewById(R.id.edit_show);
+        editShow.setBackgroundColor(Color.parseColor("#303841"));
+        editShow.setTextColor(Color.RED);
+        editShow.setTextSize(18);
+//        editShow.setBackgroundResource(R.drawable.round_corner);
         btnDel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
         btnCp.setOnClickListener(this);
@@ -454,11 +460,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Log.e("xiaosheng", "EditText2获得焦点");
+//                    Log.e("xiaosheng", "EditText获得焦点");
                     editText.setBackgroundResource(R.drawable.cursor_color);
-
+                    // 获取TableRow
+                    TableRow tableRow = (TableRow) editText.getParent();
+                    if (tableRow != null) {
+                        // 获取TableLayout
+                        TableLayout tableLayout = (TableLayout) tableRow.getParent();
+                        if (tableLayout != null) {
+                            // 获取行数
+                            int rowIndex = tableLayout.indexOfChild(tableRow);
+                            // 获取列数
+                            int colIndex = tableRow.indexOfChild(editText) / 2; // 因为每个EditText后面都有一个TextView，所以除以2
+                            // 输出行数和列数
+                            editShow.setText("正在编辑:"+rowIndex+":"+TestTemConfig.headers.get(colIndex-1).replace(":",""));
+                            // 这里你可以根据需要进行其他操作
+                        }
+                    }
                 } else {
-                    Log.e("xiaosheng", "EditText2失去焦点");
+//                    Log.e("xiaosheng", "EditText2失去焦点");
                     editText.setBackgroundResource(R.drawable.cell_backgroud);
                 }
             }

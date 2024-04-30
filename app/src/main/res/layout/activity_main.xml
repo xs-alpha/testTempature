@@ -56,6 +56,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="122sp"
+                android:id="@+id/edit_show"
+                android:layout_marginRight="10sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginLeft="10sp"
+                android:layout_height="44sp"></TextView>
             <Button
                 android:id="@+id/btn_add"
                 android:layout_width="160sp"
