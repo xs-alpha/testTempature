@@ -11,7 +11,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,4 +41,8 @@ dependencies {
 
     implementation("androidx.room:room-runtime:2.2.5")
     annotationProcessor("androidx.room:room-compiler:2.2.5")
+
+    implementation ("com.alibaba.fastjson2:fastjson2:2.0.49")
+
+    implementation ("com.github.li-xiaojun:XPopup:2.10.0")
 }

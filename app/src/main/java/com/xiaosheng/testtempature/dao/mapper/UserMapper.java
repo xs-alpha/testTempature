@@ -1,6 +1,7 @@
 package com.xiaosheng.testtempature.dao.mapper;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -24,4 +25,7 @@ public interface UserMapper {
 
     @Update
     void update(Tempature user);
+
+    @Delete
+    void delete(Tempature tempature);
 }

@@ -3,15 +3,12 @@ package com.xiaosheng.testtempature;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.health.connect.datatypes.units.Temperature;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,19 +17,31 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import com.blankj.utilcode.util.ClipboardUtils;
+import com.blankj.utilcode.util.CollectionUtils;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.xiaosheng.testtempature.adapter.TestTempatureAdapter;
 import com.xiaosheng.testtempature.dao.MyApplication;
 import com.xiaosheng.testtempature.dao.UserDataBase;
 import com.xiaosheng.testtempature.dao.mapper.UserMapper;
+import com.xiaosheng.testtempature.entity.Tempature;
+import com.xiaosheng.testtempature.entity.TemperatureData;
 import com.xiaosheng.testtempature.entity.TestTemConfig;
 import com.xiaosheng.testtempature.entity.TestTemEntity;
 import com.xiaosheng.testtempature.utils.LogUtils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TableLayout tableLayout;
     private Integer rows = 0;
     private List<List<String>> tableData;
-    UserMapper mapper = MyApplication.userMapper;
+
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tableLayout = findViewById(R.id.tableLayout);
         addColumnHeaders();
-        addRow();
+        addRow(null);
 
         datas = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
@@ -67,11 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             testTemEntity.setGroup(i + "组");
             datas.add(testTemEntity);
         }
-        adapterListView = new TestTempatureAdapter(MainActivity.this, R.layout.list_item, datas);
-        listView = (ListView) findViewById(R.id.tm_list);
-        listView.setAdapter(adapterListView);
-        //设置listview点击事件
-
 
         initBtn();
         initMapper();
@@ -92,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnClear.setBackgroundColor(Color.parseColor("#ff165d"));
         btnLoad.setTextColor(Color.parseColor("#9896f1"));
         btnLoad.setBackgroundColor(Color.parseColor("#8ef6e4"));
+        Button btnDel = findViewById(R.id.btn_delete);
+        btnDel.setBackgroundColor(Color.RED);
+        btnDel.setTextColor(Color.parseColor("#3ec1d3"));
+        btnDel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
         btnCp.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -126,60 +135,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ClipboardUtils.copyText(res);
         }
         if (view.getId() == R.id.btn_add) {
-            addRow();
+            addRow(null);
         }
         if (view.getId() == R.id.btn_clear) {
             clearTableExceptFirstRow(tableLayout);
         }
         if (view.getId() == R.id.btn_load) {
-
+            loadData();
         }
         if (view.getId() == R.id.btn_save) {
-
+            saveJson();
+        }
+        if (view.getId() == R.id.btn_delete){
+            deleteData();
         }
     }
 
-
-    private void addRow() {
-        TableRow tableRow = new TableRow(this);
-        rows += 1;
-        TextView prefixTextView = new TextView(this);
-        prefixTextView.setText("第" + rows + "组 ");
-
-        // 添加单元格之间的间距
-        TableRow.LayoutParams cellParams = new TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT
-        );
-
-        // 设置 prefixTextView 的外边距
-        prefixTextView.setLayoutParams(cellParams);
-
-        tableRow.addView(prefixTextView);
-        // 添加每个单元格
-        for (int i = 1; i <= TestTemConfig.headers.size(); i++) {
-            EditText editText = new EditText(this);
-            TextView pc = new TextView(this);
-            pc.setText(TestTemConfig.headers.get(i - 1));
-            pc.setTextColor(Color.YELLOW);
-
-            // 设置 editText 的外边距
-            editText.setLayoutParams(cellParams);
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            editText.setBackgroundResource(R.drawable.cell_backgroud);
-//            editText.setPadding(8, 20, 8, 20);
-
-            // 设置 TextView 的外边距
-            pc.setLayoutParams(cellParams);
-            // 添加单元格到 TableRow
-            tableRow.addView(pc);
-            tableRow.addView(editText);
-        }
-        ///添加删除按钮
-        addDeleteBtn(tableRow);
-        // 将 TableRow 添加到 TableLayout
-        tableLayout.addView(tableRow);
+    private void deleteData() {
+        UserMapper mapper = MyApplication.userMapper;
+        Tempature tempature = new Tempature();
+        tempature.setId(1);
+        mapper.delete(tempature);
+        Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_LONG).show();
     }
+
+    private void loadData() {
+        UserMapper mapper = MyApplication.userMapper;
+        Tempature tempature = mapper.getById(1);
+        if (null != tempature){
+            String json = tempature.getJson();
+            List<List<String>> temperatureList = JSON.parseObject(json, new TypeReference<List<List<String>>>(){});
+            System.out.println(temperatureList);
+            ToastUtils.showLong("加载成功");
+
+            addDataToTable(temperatureList );
+        }else{
+            ToastUtils.showLong("加载失败");
+        }
+    }
+
 
     private void addDeleteBtn(TableRow tableRow) {
         Button btn = new Button(this);
@@ -219,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (flag){
                         prefixTextView.setText("第" + (i-1) + "组 ");
                     }else{
-                        LogUtils.log("xxxxxx:" + i + "  table:" + tbs.size() + "preText:" + prefixTextView.getText());
+//                        LogUtils.log("xxxxxx:" + i + "  table:" + tbs.size() + "preText:" + prefixTextView.getText());
                         prefixTextView.setText("第" + (i) + "组 ");
                     }
                 }
@@ -227,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         rows = tbs.size();
-        LogUtils.log("xxxxx-x:" + rows + "  table:" + tableLayout.getChildCount() + " tbs:" + tbs.size());
+//        LogUtils.log("xxxxx-x:" + rows + "  table:" + tableLayout.getChildCount() + " tbs:" + tbs.size());
     }
 
 
@@ -238,16 +232,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TableLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        // Add your column headers here
-        int[] columnWidths = {150, 0, 150, 0, 150, 0, 150, 0, 150, 0, 150, 0, 250, 200};
-        // Add column headers with widths
         for (int i = 0; i < TestTemConfig.headers_trim.size(); i++) {
             TextView textView = new TextView(this);
             textView.setText(TestTemConfig.headers_trim.get(i));
-//            textView.setPadding(8, 8, 8, 8);
             textView.setTextColor(Color.WHITE);
-            textView.setWidth(columnWidths[i]); // Set width for the column
-//            textView.setBackgroundResource(R.drawable.cell_shape); // Optional: Set background drawable for cell
+            textView.setWidth(TestTemConfig.columnWidths.get(i)); // Set width for the column
             headerRow.addView(textView);
         }
 
@@ -296,7 +285,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String data = row.get(i).trim();
                 formattedRow.append(header).append(data).append("   ");
             }
-            res += formattedRow.toString();
+            String lineBreak = StringUtils.isEmpty(res) ? "" : "\n";
+            res = res + lineBreak+formattedRow.toString();
             rowNum++;
         }
         return res;
@@ -315,7 +305,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void clearTableExceptFirstRow(TableLayout tableLayout) {
         int childCount = tableLayout.getChildCount();
-
         // 保留第一行，从第二行开始删除
         for (int i = childCount - 1; i > 0; i--) {
             View child = tableLayout.getChildAt(i);
@@ -325,7 +314,113 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             refreshNumberRows();
         }
         rows = 0;
-        addRow();
+        addRow(null);
+    }
+
+    public void saveJson(){
+        List<List<String>> tableData = getTableData();
+        String json = GsonUtils.toJson(tableData);
+
+        FutureTask<Void> saveTask = new FutureTask<>(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                saveOrUpdate(json);
+                return null;
+            }
+        });
+        executorService.submit(saveTask);
+        Toast.makeText(MainActivity.this,"保存成功",Toast.LENGTH_LONG).show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void addRow(List<String> temperatureList) {
+        TableRow tableRow = new TableRow(this);
+        rows += 1;
+        TextView prefixTextView = new TextView(this);
+        prefixTextView.setText("第" + rows + "组 ");
+
+        // 添加单元格之间的间距
+        TableRow.LayoutParams cellParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+        );
+
+        // 设置 prefixTextView 的外边距
+        prefixTextView.setLayoutParams(cellParams);
+
+        tableRow.addView(prefixTextView);
+        // 添加每个单元格
+        for (int i = 1; i <= TestTemConfig.headers.size(); i++) {
+            EditText editText = new EditText(this);
+            TextView pc = new TextView(this);
+            pc.setText(TestTemConfig.headers.get(i - 1));
+            pc.setTextColor(Color.YELLOW);
+
+            // 设置 editText 的外边距
+            editText.setLayoutParams(cellParams);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            if (CollectionUtils.isNotEmpty(temperatureList)){
+                editText.setText(temperatureList.get(i-1));
+            }
+            editText.setBackgroundResource(R.drawable.cell_backgroud);
+
+            // 设置 TextView 的外边距
+            pc.setLayoutParams(cellParams);
+            // 添加单元格到 TableRow
+            tableRow.addView(pc);
+            tableRow.addView(editText);
+        }
+        ///添加删除按钮
+        addDeleteBtn(tableRow);
+        // 将 TableRow 添加到 TableLayout
+        tableLayout.addView(tableRow);
+    }
+
+
+    private void addDataToTable(List<List<String>> temperatureList) {
+        // 清空表格
+        tableLayout.removeAllViews();
+        rows = 0;
+
+        // 添加列标题
+        addColumnHeaders();
+
+        // 添加数据行
+        for (int i = 0; i < temperatureList.size(); i++) {
+            addRow( temperatureList.get(i));
+        }
+    }
+
+
+    private void saveOrUpdate(String json){
+        Tempature tempature = new Tempature();
+        UserMapper mapper = MyApplication.userMapper;
+        Tempature tm = mapper.getById(1);
+        tempature.setId(1);
+        tempature.setJson(json);
+        if (ObjectUtils.isEmpty(tm)){
+            mapper.insert(tempature);
+        }else{
+            mapper.update(tempature);
+        }
     }
 
 }
