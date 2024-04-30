@@ -1,5 +1,7 @@
 package com.xiaosheng.testtempature;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -25,6 +27,8 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.xiaosheng.testtempature.adapter.TestTempatureAdapter;
 import com.xiaosheng.testtempature.dao.MyApplication;
 import com.xiaosheng.testtempature.dao.UserDataBase;
@@ -138,16 +142,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             addRow(null);
         }
         if (view.getId() == R.id.btn_clear) {
-            clearTableExceptFirstRow(tableLayout);
+            new XPopup.Builder(MainActivity.this).asConfirm("清空列表", "确认清空吗,清空会清空当前所有数据,但不会删除数据库的数据",
+                            new OnConfirmListener() {
+                                @Override
+                                public void onConfirm() {
+                                    clearTableExceptFirstRow(tableLayout);
+                                }
+                            })
+                    .show();
         }
         if (view.getId() == R.id.btn_load) {
-            loadData();
+            new XPopup.Builder(MainActivity.this).asConfirm("加载", "确认加载吗,加载会覆盖当前所有内容",
+                            new OnConfirmListener() {
+                                @Override
+                                public void onConfirm() {
+                                    loadData();
+                                }
+                            })
+                    .show();
         }
         if (view.getId() == R.id.btn_save) {
-            saveJson();
+            new XPopup.Builder(MainActivity.this).asConfirm("确认", "确认保存吗",
+                            new OnConfirmListener() {
+                                @Override
+                                public void onConfirm() {
+                                    saveJson();
+                                }
+                            })
+                    .show();
+
         }
         if (view.getId() == R.id.btn_delete){
-            deleteData();
+            new XPopup.Builder(MainActivity.this).asConfirm("删除", "确认删除数据库保存的内容吗",
+                            new OnConfirmListener() {
+                                @Override
+                                public void onConfirm() {
+                                    deleteData();
+                                }
+                            })
+                    .show();
         }
     }
 
@@ -183,11 +216,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 删除按钮所在的行
-                TableRow parentRow = (TableRow) v.getParent();
-                tableLayout.removeView(parentRow);
-                // 刷新行号
-                refreshNumberRows();
+                new XPopup.Builder(MainActivity.this).asConfirm("删除", "确认删除当前行吗",
+                                new OnConfirmListener() {
+                                    @Override
+                                    public void onConfirm() {
+                                        // 删除按钮所在的行
+                                        TableRow parentRow = (TableRow) v.getParent();
+                                        tableLayout.removeView(parentRow);
+                                        // 刷新行号
+                                        refreshNumberRows();
+                                    }
+                                })
+                        .show();
+
             }
         });
     }

@@ -43,6 +43,12 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.2.5")
 
     implementation ("com.alibaba.fastjson2:fastjson2:2.0.49")
+    implementation("io.github.razerdp:BasePopup:3.2.1")
 
-    implementation ("com.github.li-xiaojun:XPopup:2.10.0")
+    implementation ("com.github.HanHuoBin:BaseDialog:1.2.6")
+
+    implementation ("com.github.li-xiaojun:XPopup:2.2.9")
+    implementation ("androidx.appcompat:appcompat:1.3.1")
+    implementation ("com.google.android.material:material:1.4.0")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
 }
