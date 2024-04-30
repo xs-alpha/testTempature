@@ -73,12 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置listview点击事件
 
 
-
         initBtn();
         initMapper();
     }
 
-    private void initBtn(){
+    private void initBtn() {
         Button btnCp = findViewById(R.id.btn_cp);
         btnCp.setTextColor(Color.CYAN);
         Button btnAdd = findViewById(R.id.btn_add);
@@ -98,13 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSave.setOnClickListener(this);
         btnLoad.setOnClickListener(this);
         btnClear.setOnClickListener(this);
-    }
-    private void tableView() {
-        EditableTableLayout tableLayout = new EditableTableLayout(this);
-        String[] rowData1 = {"Cell 1", "Cell 2", "Cell 3"};
-        String[] rowData2 = {"Cell 4", "Cell 5", "Cell 6"};
-        tableLayout.addEditableRow(rowData1);
-        tableLayout.addEditableRow(rowData2);
     }
 
 
@@ -135,6 +127,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (view.getId() == R.id.btn_add) {
             addRow();
+        }
+        if (view.getId() == R.id.btn_clear) {
+            clearTableExceptFirstRow(tableLayout);
+        }
+        if (view.getId() == R.id.btn_load) {
+
+        }
+        if (view.getId() == R.id.btn_save) {
+
         }
     }
 
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void refreshNumberRows() {
         // 遍历 TableLayout 中的每一行
+        boolean flag = false;
         for (int i = 1; i < tableLayout.getChildCount(); i++) {
             View child = tableLayout.getChildAt(i);
             if (child instanceof TableRow) {
@@ -210,11 +212,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView prefixTextView = (TextView) row.getChildAt(0);
                 if (prefixTextView != null) {
                     // 更新组号
-                    prefixTextView.setText("第" + (i - 1) + "组 ");
+//                     reRow = i == 1 ? i : (i - 1);
+                     if (i<=1){
+                         flag = true;
+                         prefixTextView.setText("第-" + (i) + "组 ");
+                     }else {
+                         prefixTextView.setText("第:" + (i-1) + "组 ");
+                     }
+//                    int reRow = i -1;
                 }
             }
         }
-        rows = tableLayout.getChildCount() - 2;
+        rows = flag ? (tableLayout.getChildCount() - 1): (tableLayout.getChildCount() - 2);
     }
 
 
@@ -290,8 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    private void initMapper(){
+    private void initMapper() {
         MyApplication.userDataBase = Room.databaseBuilder(this, UserDataBase.class, "user")
                 // 允许迁移数据库,(发生数据变更时,room会默认删除源数据库再创建数据库,数据会丢失.)
                 .addMigrations()
@@ -300,4 +308,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyApplication.userMapper = MyApplication.getDb().userMapper();
         LogUtils.log("created");
     }
+
+    public void clearTableExceptFirstRow(TableLayout tableLayout) {
+        int childCount = tableLayout.getChildCount();
+
+        // 保留第一行，从第二行开始删除
+        for (int i = childCount - 1; i > 0; i--) {
+            View child = tableLayout.getChildAt(i);
+            if (child instanceof TableRow) {
+                tableLayout.removeViewAt(i);
+            }
+            refreshNumberRows();
+        }
+        rows = 0;
+        addRow();
+    }
+
 }
