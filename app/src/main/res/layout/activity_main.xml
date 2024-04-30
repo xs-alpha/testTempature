@@ -24,28 +24,33 @@
     </LinearLayout>
 
 
-    <HorizontalScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal">
+        android:layout_height="520sp">
 
-        <TableLayout
-            android:id="@+id/tableLayout"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5sp"
-            android:layout_marginRight="50dp"
-            android:divider="@drawable/line_h"
-            android:showDividers="beginning|middle|end">
+            android:scrollbars="horizontal">
 
-            <TableRow
+            <TableLayout
+                android:id="@+id/tableLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="50dp"
+                android:divider="@drawable/line_h"
+                android:showDividers="beginning|middle|end">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
 
-            </TableRow>
-        </TableLayout>
-    </HorizontalScrollView>
+                </TableRow>
+            </TableLayout>
+        </HorizontalScrollView>
+    </ScrollView>
 
     <ListView
         android:id="@+id/tm_list"
