@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             testTemEntity.setAt6("F:");
             testTemEntity.setAt7("G:");
             testTemEntity.setAt8("H:");
-            testTemEntity.setGroup(i + "组");
+            testTemEntity.setGroup(i + "床");
             datas.add(testTemEntity);
         }
 
@@ -93,9 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initBtn() {
         Button btnCp = findViewById(R.id.btn_cp);
-        btnCp.setTextColor(Color.CYAN);
+        btnCp.setTextColor(Color.BLACK);
         Button btnAdd = findViewById(R.id.btn_add);
-        btnAdd.setTextColor(Color.parseColor("#defcf9"));
+        btnAdd.setTextColor(Color.parseColor("#3f72af"));
         btnAdd.setBackgroundColor(Color.parseColor("#cadefc"));
         Button btnClear = findViewById(R.id.btn_clear);
         Button btnSave = findViewById(R.id.btn_save);
@@ -257,10 +257,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (prefixTextView != null) {
                     // 更新组号
                     if (flag){
-                        prefixTextView.setText("第" + (i-1) + "组 ");
+                        prefixTextView.setText("第" + (i-1) + "床 ");
                     }else{
 //                        LogUtils.log("xxxxxx:" + i + "  table:" + tbs.size() + "preText:" + prefixTextView.getText());
-                        prefixTextView.setText("第" + (i) + "组 ");
+                        prefixTextView.setText("第" + (i) + "床 ");
                     }
                 }
 
@@ -401,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TableRow tableRow = new TableRow(this);
         rows += 1;
         TextView prefixTextView = new TextView(this);
-        prefixTextView.setText("第" + rows + "组 ");
+        prefixTextView.setText("第" + rows + "床 ");
 
         // 添加单元格之间的间距
         TableRow.LayoutParams cellParams = new TableRow.LayoutParams(
@@ -427,33 +427,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editText.setText(temperatureList.get(i-1));
             }
             editText.setBackgroundResource(R.drawable.cell_backgroud);
-            // 设置光标颜色
-            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        Log.e("xiaosheng", "EditText2获得焦点");
-                        editText.setBackgroundResource(R.drawable.cursor_color);
-
-                    } else {
-                        Log.e("xiaosheng", "EditText2失去焦点");
-                        editText.setBackgroundResource(R.drawable.cursor_color_unselected);
-                    }
-                }
-            });
-            editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // 当EditText文本改变时，改变行的背景颜色
-                    changeRowColor(tableLayout.indexOfChild(tableRow));
-                }
-            });
+            // 设置光标颜色,选中颜色,选中行颜色
+            editTextListener(editText,tableRow);
             // 设置 TextView 的外边距
             pc.setLayoutParams(cellParams);
             // 添加单元格到 TableRow
@@ -462,19 +437,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         ///添加删除按钮
         addDeleteBtn(tableRow);
-        // 添加行点击事件
-        // 设置行点击事件
-        tableRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 获取当前选中行的索引
-                int rowIndex = tableLayout.indexOfChild(tableRow);
-                // 改变选中行的背景颜色
-                changeRowColor(rowIndex);
-            }
-        });
         // 将 TableRow 添加到 TableLayout
         tableLayout.addView(tableRow);
+    }
+
+    /**
+     * 设置光标颜色,选中颜色,选中行颜色
+     * @param editText
+     */
+    private void editTextListener(EditText editText,TableRow tableRow){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.e("xiaosheng", "EditText2获得焦点");
+                    editText.setBackgroundResource(R.drawable.cursor_color);
+
+                } else {
+                    Log.e("xiaosheng", "EditText2失去焦点");
+                    editText.setBackgroundResource(R.drawable.cell_backgroud);
+                }
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 当EditText文本改变时，改变行的背景颜色
+                changeRowColor(tableLayout.indexOfChild(tableRow));
+            }
+        });
     }
     private void changeRowColor(int rowIndex) {
         // 遍历表格中的每一行，根据索引改变背景颜色
