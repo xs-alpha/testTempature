@@ -67,7 +67,7 @@
             <Button
                 android:id="@+id/btn_add"
                 android:layout_width="160sp"
-                android:layout_height="wrap_content"
+                android:layout_height="40sp"
                 android:gravity="center_horizontal"
                 android:text="添加一行"
                 android:textStyle="bold" />
@@ -81,7 +81,7 @@
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40sp"
                 android:gravity="center_horizontal"
                 android:text="保存"
                 android:textStyle="bold" />
@@ -89,7 +89,7 @@
             <Button
                 android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40sp"
                 android:gravity="center_horizontal"
                 android:text="清空"
                 android:textStyle="bold" />
@@ -97,7 +97,7 @@
             <Button
                 android:id="@+id/btn_load"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40sp"
                 android:gravity="center_horizontal"
                 android:text="加载"
                 android:textStyle="bold" />
@@ -105,7 +105,7 @@
             <Button
                 android:id="@+id/btn_delete"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40sp"
                 android:gravity="center_horizontal"
                 android:text="删除"
                 android:textStyle="bold" />
@@ -114,7 +114,7 @@
         <Button
             android:id="@+id/btn_cp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:text="复制" />
     </LinearLayout>
 </LinearLayout>

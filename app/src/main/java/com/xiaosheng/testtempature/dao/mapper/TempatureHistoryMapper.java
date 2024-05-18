@@ -29,4 +29,10 @@ public interface TempatureHistoryMapper {
 
     @Delete
     void delete(TempatureHistory tempature);
+
+    @Query("DELETE FROM tempature_history")
+    void deleteAll();  // 删除表中所有数据
+
+    @Query("DELETE FROM tempature_history WHERE timestamp < :timestamp")
+    void deleteOlderThan(String timestamp);  // 删除表中5天前的数据
 }

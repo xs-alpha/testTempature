@@ -50,6 +50,7 @@ public class CustomPopup extends CenterPopupView {
         findViewById(R.id.tc_cancel).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                ThreadPool.tempMsg.remove(Constants.SELECTED_JSON);
                 dismiss(); // 关闭弹窗
             }
         });

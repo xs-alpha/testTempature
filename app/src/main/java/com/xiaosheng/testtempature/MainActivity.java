@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.health.connect.datatypes.units.Temperature;
 import android.os.Bundle;
 import android.text.Editable;
@@ -79,8 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView editShow;
     private Fragment mainFragment;
     private Fragment logFragment;
+    private Fragment settingFragment;
     private TextView mainBtn;
     private TextView logBtn;
+    private TextView setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,15 +100,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         mainFragment = new MainWorkActivity();
         logFragment = new LogViewActivity();
+        settingFragment = new SettingFragment();
         getFragmentManager().beginTransaction().add(R.id.frame_container, mainFragment).commitAllowingStateLoss();
     }
 
     private void initBtn() {
         mainBtn = findViewById(R.id.nav_main);
         logBtn = findViewById(R.id.nav_log);
+        setting = findViewById(R.id.nav_setting);
         mainBtn.setOnClickListener(this);
         logBtn.setOnClickListener(this);
+        setting.setOnClickListener(this);
         mainBtn.setTextColor(Color.BLUE);
+        logBtn.setTextColor(Color.WHITE);
+        setting.setTextColor(Color.WHITE);
+        mainBtn.setBackgroundColor(Color.parseColor("#95e1d3"));
+        setting.setBackgroundColor(Color.parseColor("#95e1d3"));
+        mainBtn.setTypeface(null, Typeface.BOLD_ITALIC);
+        logBtn.setTypeface(null, Typeface.BOLD_ITALIC);
+        setting.setTypeface(null, Typeface.BOLD_ITALIC);
+        logBtn.setBackgroundColor(Color.parseColor("#95e1d3"));
     }
 
 
@@ -114,13 +128,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId()==R.id.nav_main){
             mainBtn.setTextColor(Color.BLUE);
             logBtn.setTextColor(Color.WHITE);
+            setting.setTextColor(Color.WHITE);
             getFragmentManager().beginTransaction().replace(R.id.frame_container,mainFragment).commitAllowingStateLoss();
 //            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,mainFragment).commitAllowingStateLoss();
         }
         if (view.getId()==R.id.nav_log){
             logBtn.setTextColor(Color.BLUE);
             mainBtn.setTextColor(Color.WHITE);
+            setting.setTextColor(Color.WHITE);
             getFragmentManager().beginTransaction().replace(R.id.frame_container,logFragment).commitAllowingStateLoss();
+        }
+        if (view.getId()==R.id.nav_setting){
+            mainBtn.setTextColor(Color.WHITE);
+            logBtn.setTextColor(Color.WHITE);
+            setting.setTextColor(Color.BLUE);
+            getFragmentManager().beginTransaction().replace(R.id.frame_container,settingFragment).commitAllowingStateLoss();
+
         }
     }
 
