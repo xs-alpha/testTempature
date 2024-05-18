@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10sp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:text="共"
+            android:textColor="#1882B5"
+            android:textSize="30sp"></TextView>
+        <TextView
+            android:id="@+id/log_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:text="数量"
+            android:textColor="#1882B5"
+            android:textSize="30sp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:text="床"
+            android:textColor="#1882B5"
+            android:textSize="30sp"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="15sp"
+            android:layout_marginLeft="10sp"
+            android:text="时间: "
+            android:textColor="#FF9800"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/log_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="15sp"
+            android:layout_marginBottom="10sp"
+            android:text="com.xx.xx"
+            android:textColor="#FF9800"
+            android:textSize="10sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textColor="#b3bdc7"
+            android:text="内容: "
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/log_json"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="内容xxxxxxxxxxxxx加载中"
+            android:textColor="#b3bdc7"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+</LinearLayout>

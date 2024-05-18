@@ -11,15 +11,25 @@ public class TempatureHistory {
     private Integer id;
     private String json;
 
-    public Date getTimestamp() {
+    public Integer getLine() {
+        return line;
+    }
+
+    public void setLine(Integer line) {
+        this.line = line;
+    }
+
+    private Integer line;
+
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
-    private Date timestamp;
+    private String timestamp;
 
     public Integer getId() {
         return id;

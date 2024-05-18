@@ -6,6 +6,7 @@ import com.xiaosheng.testtempature.dao.mapper.UserMapper;
 
 public class MyApplication {
     public static UserDataBase userDataBase;
+    public static TempatureDataBase tempatureDataBase;
 
     public static UserMapper userMapper;
 
@@ -15,4 +16,7 @@ public class MyApplication {
         return userDataBase;
     }
 
+    public static TempatureDataBase getLogDb(){
+        return tempatureDataBase;
+    }
 }

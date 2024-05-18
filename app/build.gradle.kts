@@ -10,8 +10,8 @@ android {
         applicationId = "com.xiaosheng.testtempature"
         minSdk = 26
         targetSdk = 34
-        versionCode = 22
-        versionName = "2.2"
+        versionCode = 25
+        versionName = "2.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,4 +51,5 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.3.1")
     implementation ("com.google.android.material:material:1.4.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("com.android.support:design:29.0.1")
 }

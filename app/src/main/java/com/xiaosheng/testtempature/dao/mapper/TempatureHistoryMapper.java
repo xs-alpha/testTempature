@@ -18,7 +18,7 @@ public interface TempatureHistoryMapper {
     @Insert
     void insert(TempatureHistory json);
 
-    @Query("select * from tempature_history ORDER BY timestamp limit 100 ")
+    @Query("select * from tempature_history ORDER BY timestamp desc limit 100 ")
     List<TempatureHistory> getAll();
 
     @Query("select * from tempature_history where id = :userSaveId ")
