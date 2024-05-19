@@ -1,5 +1,7 @@
 package com.xiaosheng.testtempature;
 
+import static com.blankj.utilcode.util.ThreadUtils.runOnUiThread;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,12 +69,25 @@ public class LogViewActivity extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TempatureHistory log = allData.get(i);
-                Toast.makeText(LogViewActivity.super.getContext(), "正在加载", Toast.LENGTH_LONG).show();
-                ThreadPool.tempMsg.put(Constants.SELECTED_JSON,log.getJson());
-                new XPopup.Builder(getContext())
-                        .asCustom(new CustomPopup(getContext(),getFragmentManager(), new MainWorkActivity(),(CustomPopup.OnFragmentSwitchListener) getActivity()))
-                        .show();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        TempatureHistory log = allData.get(i);
+                        Toast.makeText(LogViewActivity.super.getContext(), "正在加载", Toast.LENGTH_LONG).show();
+                        ThreadPool.tempMsg.put(Constants.SELECTED_JSON,log.getJson());
+                        new XPopup.Builder(getContext())
+                                .asCustom(new CustomPopup(getContext(),getFragmentManager(), new MainWorkActivity(),(CustomPopup.OnFragmentSwitchListener) getActivity()))
+                                .show();
+//                    }
+//                });
+//
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ToastUtils.showLong("长按了");
+                return true;
             }
         });
 //        getFragmentManager().beginTransaction().replace(R.id.frame_container,mainFragment).commitAllowingStateLoss();

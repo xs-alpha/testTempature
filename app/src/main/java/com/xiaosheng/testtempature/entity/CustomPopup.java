@@ -69,7 +69,8 @@ public class CustomPopup extends CenterPopupView {
                 }
             }
         });
-        initTable();
+        Task task = () -> initTable();
+        TableUtils.loadDataWithLoading(task,CustomPopup.super.getContext());
     }
 
     private void initTable() {
